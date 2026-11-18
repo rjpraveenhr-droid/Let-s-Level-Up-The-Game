@@ -63,37 +63,41 @@ clock = pygame.time.Clock()
 
 # Main game loop
 while running:
-   for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
-                                         and event.key == pygame.K_x):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (
+            event.type == pygame.KEYDOWN and event.key == pygame.K_x
+        ):
             running = False
 
-   if not won:
-       keys = pygame.key.get_pressed()
-       x_change = (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * MOVEMENT_SPEED
-       y_change = (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * MOVEMENT_SPEED
-       sprite1.move(x_change, y_change)
+    if not won:
+        keys = pygame.key.get_pressed()
 
-       if sprite1.rect.colliderect(sprite2.rect):
-        all_sprites.remove(sprite2)
-        won = True
+        x_change = (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * MOVEMENT_SPEED
+        y_change = (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * MOVEMENT_SPEED
 
-    #Drawing
-   screen.blit(background_image, (0, 0))
-   all_sprites.draw(screen)
+        sprite1.move(x_change, y_change)
 
-   # Display win message
-   if won:
-       win_text = font.render("You win!", True, pygame.Color('black'))
-       screen.blit(win_text, ((SCREEN_WIDTH - win_text.get_width()) // 2,
-                             (SCREEN_HEIGHT - win_text.get_height()) // 2))
+        # Check collision
+        if sprite1.rect.colliderect(sprite2.rect):
+            all_sprites.remove(sprite2)
+            won = True
 
+    # Drawing
+    screen.blit(background_image, (0, 0))
+    all_sprites.draw(screen)
 
-pygame.display.flip()
-clock.tick(90)
+    # Display win message
+    if won:
+        win_text = font.render("You win!", True, pygame.Color('black'))
+        screen.blit(win_text, (
+            (SCREEN_WIDTH - win_text.get_width()) // 2,
+            (SCREEN_HEIGHT - win_text.get_height()) // 2
+        ))
 
-pygame.quit()   
+    pygame.display.flip()
+    clock.tick(90)
 
+pygame.quit()
 
        
                                         
